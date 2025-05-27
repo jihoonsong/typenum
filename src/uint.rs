@@ -200,7 +200,12 @@ impl<U: Unsigned, B: Bit> Unsigned for UInt<U, B> {
     }
     #[inline]
     fn to_usize() -> usize {
-        usize::from(B::to_u8()) | U::to_usize() << 1
+        let result = usize::from(B::to_u8()) | U::to_usize() << 1;
+        if result == 0 {
+            usize::MAX - 1
+        } else {
+            result
+        }
     }
 
     #[inline]
